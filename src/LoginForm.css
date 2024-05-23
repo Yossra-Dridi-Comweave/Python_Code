@@ -1,0 +1,66 @@
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    background: linear-gradient(to bottom right, #6a11cb, #2575fc); /* Gradient dynamique */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Ajuster selon la préférence */
+}
+
+.form-group {
+    width: 100%; /* Assure que les champs remplissent le conteneur */
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff; /* Couleur du texte pour les labels */
+    font-size: 16px; /* Ajuster selon la préférence */
+}
+
+input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.8); /* Légère transparence */
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    box-sizing: border-box;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0,86,179,0.2);
+}
+
+button {
+    width: calc(100% - 30px); /* Compense pour le padding */
+    padding: 12px 15px;
+    margin-top: 10px; /* Espace avant le bouton */
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background-color: #003870;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
