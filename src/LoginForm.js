@@ -1,33 +1,35 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './LoginForm.css';
-import { useHistory } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [server, setServer] = useState('IC_Markets');
-    const history = useHistory();
+    const [server, setServer] = useState('ICMarketsSC-Demo');
+    const [redirectToSettings, setRedirectToSettings] = useState(false);
+    const [loginSuccess, setLoginSuccess] = useState(false); // État pour gérer l'affichage du message
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:5000/login', {
-                username,
-                password,
-                server
-            });
-            if (response.data.status === "success") {
-                history.push('/settings'); // Redirige vers la page des paramètres de trading
-            } else {
-                alert(response.data.message);
-            }
-        } catch (error) {
-            console.error('Login failed:', error);
-            alert('Login failed: ' + error.message);
+        const response = await axios.post('http://localhost:5000/login', {
+            username,
+            password,
+            server
+        });
+        if (response.data.status === "success") {
+            setLoginSuccess(true); // Mettre à jour l'état pour afficher le message de succès
+            setTimeout(() => { // Utiliser setTimeout pour retarder la redirection
+                setRedirectToSettings(true);
+            }, 2000); // Retarder de 2000 millisecondes (2 secondes)
+        } else {
+            alert(response.data.message);
         }
     };
 
+    if (redirectToSettings) {
+        return <Navigate to="/settings?loginSuccess=true" replace />;
+    }
     return (
         <div className="login-container">
             <h2>Connexion Trader</h2>
@@ -43,12 +45,13 @@ function LoginForm() {
                 <div className="form-group">
                     <label>Serveur:</label>
                     <select value={server} onChange={e => setServer(e.target.value)}>
-                        <option value="IC_Markets">IC Markets</option>
+                        <option value="ICMarketsSC-Demo">ICMarketsSC-Demo</option>
                         <option value="MetaQuotes-Demo">MetaQuotes-Demo</option>
                         <option value="Admirals">Admirals</option>
                     </select>
                 </div>
                 <button type="submit">Connexion</button>
+                
             </form>
         </div>
     );
