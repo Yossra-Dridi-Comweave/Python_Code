@@ -1,0 +1,58 @@
+.settings-container {
+    width: 50%; /* Ajuste la largeur à ton besoin */
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff; /* Change pour une couleur ou un dégradé plus vif */
+    background-image: linear-gradient(to top left, #e6f9ff, #e6e6ff); /* Dégradé doux de bleu et violet */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce pour un effet 3D */
+    border: 1px solid #ccc; /* Bordure discrète */
+    box-sizing: border-box; /* Assure que padding et border ne dépassent pas la largeur */
+}
+
+.settings-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* Espace après le titre */
+}
+
+.settings-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espace entre chaque champ */
+}
+
+.settings-container label {
+    display: block;
+    margin-bottom: 5px; /* Espace avant chaque input */
+    font-weight: bold;
+    color: #333;
+}
+
+.settings-container input, .settings-container select {
+    width: 100%; /* Utilise toute la largeur disponible */
+    padding: 10px;
+    margin-bottom: 10px; /* Espace après chaque input */
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre interne pour le relief */
+    background-color: #f8f9fa; /* Couleur de fond pour les inputs */
+}
+
+.settings-container button {
+    width: auto;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    align-self: center; /* Centre le bouton dans le formulaire */
+}
+
+.settings-container button:hover {
+    background-color: #0056b3;
+}

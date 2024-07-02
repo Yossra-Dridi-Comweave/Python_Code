@@ -1,0 +1,24 @@
+from graphviz import Digraph
+
+# Create a new directed graph
+dot = Digraph(comment='Deployment Diagram for Trading Bot Project')
+
+# Define nodes
+dot.node('CloudHub', 'CloudHub', shape='cloud')
+dot.node('API', 'MuleSoft API Layer', shape='box', style='filled', color='lightblue')
+dot.node('TradingBot', 'Trading Bot', shape='box', style='filled', color='lightblue')
+dot.node('DataProcessing', 'Data Processing', shape='box', style='filled', color='yellow')
+dot.node('MarketDataAPI', 'Market Data API', shape='box', style='filled', color='orange')
+dot.node('UserInterface', 'User Interface', shape='box', style='filled', color='lightgreen')
+dot.node('Database', 'Database', shape='cylinder', style='filled', color='red')
+
+# Define edges
+dot.edge('MarketDataAPI', 'API', 'Fetch Market Data')
+dot.edge('API', 'TradingBot', 'Pass Data')
+dot.edge('TradingBot', 'DataProcessing', 'Execute Trading Logic')
+dot.edge('DataProcessing', 'Database', 'Store Results')
+dot.edge('TradingBot', 'UserInterface', 'Provide Trading Interface')
+
+# Save the source code and render it
+output_path = r"C:/Users\ASUS/trading_bot_deployment_diagram_detailed"
+dot.render(output_path, format='png', cleanup=False)
