@@ -3,20 +3,13 @@ from Explorer import Explorer
 from Decider import Decider
 from Executor import Executor
 from Orchestrator import Orchestrator
-if __name__ == "__main__":
-    symbol = "USDSGD"
-    timeframe = mt5.TIMEFRAME_M5
-    take_profit = 300
-    
-    lot_size = 0.10
-  
-    login=10002902151
-    password="LuGsWe*2"
-    server="MetaQuotes-Demo"
-    explorer = Explorer(symbol, timeframe,login,password,server)
-    
-    decider = Decider(symbol, 0,0,0,0)
-    executor = Executor(symbol ,lot_size,take_profit,50)
 
-    orchestrateur = Orchestrator(explorer, decider, executor)
-    orchestrateur.demarrer()
+def start_trading(symbol,timeframe,take_profit,lot_size,login,password,server):
+   
+    explorer = Explorer(symbol, timeframe, login, password, server)
+    print("symbol,timeframe,take_profit,lot_size,login,password,server " ,symbol,timeframe,take_profit,lot_size,login,password,server)
+    decider = Decider(symbol, 0, 0)
+    executor = Executor(symbol, lot_size,take_profit, 100,0)
+    orchestrator = Orchestrator(explorer, decider, executor, timeframe)
+    orchestrator.demarrer()
+
