@@ -1,8 +1,52 @@
 .settings-container {
-    width: 50%; /* Ajuste la largeur à ton besoin */
-    max-width: 600px;
-    margin: 50px auto;
+    position: relative;
     padding: 20px;
+    width: 100;
+}
+
+.table-controls {
+    margin-bottom: 100px;
+    width: 100%;
+    display: inline;         /* Utiliser flexbox pour l'alignement */
+
+}
+
+.open-form-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.form-popup {
+    position: absolute;
+    top: 50px; /* Adjust based on your layout */
+    left: 50px; /* Adjust based on your layout */
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 10; /* Ensure it is above other content */
+}
+
+table {
+    width: 100%;
+    margin-top: 10px; /* Space from form or control buttons */
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+.settings-container {
+    width: 100%; /* Ajuste la largeur à ton besoin */
+    max-width: 1000px;
+    margin: 10px auto;
+    padding: 10px;
     background-color: #ffffff; /* Change pour une couleur ou un dégradé plus vif */
     background-image: linear-gradient(to top left, #e6f9ff, #e6e6ff); /* Dégradé doux de bleu et violet */
     border-radius: 10px;
@@ -29,10 +73,13 @@
     font-weight: bold;
     color: #333;
 }
+input.search-input {
+ margin-left: 700px;
+}
 
 .settings-container input, .settings-container select {
     width: 100%; /* Utilise toute la largeur disponible */
-    padding: 10px;
+    padding: 5px;
     margin-bottom: 10px; /* Espace après chaque input */
     border: 1px solid #aaa;
     border-radius: 5px;
@@ -48,11 +95,179 @@
     font-size: 16px;
     border: none;
     border-radius: 5px;
+    margin: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     align-self: center; /* Centre le bouton dans le formulaire */
 }
 
-.settings-container button:hover {
+
+.status-btn button:hover{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    cursor: not-allowed; /* Change le curseur pour indiquer que le bouton est non cliquable */
+    color: #fff;
+    background-color: rgb(6, 219, 59); /* Couleur de fond par défaut */
+    /* Assurez-vous qu'il n'y a pas de changement de couleur au survol */
+    transition: none; /* Supprime les transitions au survol */
+}
+
+/* Styles spécifiques pour les boutons actifs et inactifs */
+.status-btn.active button:hover {
+    background-color: green;
+}
+
+.status-btn.inactive button:hover {
+    background-color: red;
+}
+
+/* Assurez-vous qu'aucun style de survol ne s'applique aux boutons désactivés */
+.status-btn:disabled {
+    background-color: gray; /* Couleur de fond lorsque le bouton est désactivé */
+    color: #fff; /* Couleur du texte lorsque le bouton est désactivé */
+    cursor: not-allowed; /* Indique que le bouton est non cliquable */
+}
+
+.status-btn:disabled:hover,
+.status-btn:disabled:focus,
+.status-btn:disabled:active {
+    background-color: gray; /* Maintient la couleur de fond lors du survol, focus ou clic */
+    color: #fff; /* Maintient la couleur du texte lors du survol, focus ou clic */
+}
+
+.status-btn.active {
+    background-color: red;
+    margin: 8px;
+}
+
+.status-btn.inactive {
+    background-color: green;
+}
+
+.open-form-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.open-form-btn:hover {
     background-color: #0056b3;
+}
+
+.form-popup {
+    background-color: #f9f9f9;
+    border: 1px solid #cccccc;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+/* Assurez-vous que le conteneur du champ de recherche utilise un affichage approprié */
+.container {
+    display: flex;         /* Utiliser flexbox pour l'alignement */
+    justify-content: flex-start; /* Aligner les éléments enfants à gauche */
+}
+
+/* Styles pour le champ de recherche */
+.search-input {
+    width: 10px;           /* Largeur du champ de recherche ajustée pour une taille raisonnable */
+    height: 30px;           /* Hauteur du champ de recherche */
+    padding: 5px 10px;      /* Espacement intérieur */
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px;     /* Coins arrondis */
+    font-size: 14px;        /* Taille de la police */
+    outline: none;          /* Supprime le contour par défaut */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition douce pour les changements de bordure et d'ombre */
+}
+
+/* Styles lorsque le champ de recherche est en focus */
+.search-input:focus {
+    border-color: #007bff; /* Couleur de bordure lorsqu'il est en focus */
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2); /* Ombre lors du focus */
+}
+
+/* Styles pour le texte du placeholder */
+.search-input::placeholder {
+    color: #3e0404;              /* Couleur du texte du placeholder */
+    font-style: italic;          /* Style en italique pour le texte du placeholder */
+}
+
+
+
+button.prev{
+    margin-left: 0px;
+}
+
+button.next{
+    margin-left: 390px;
+}
+
+.page-info {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    margin-left: 340px;
+}
+
+
+.button-container {
+    position: relative; /* Positionne le conteneur pour que la tooltip soit positionnée correctement */
+    display: inline-block;
+}
+
+.open-form-btn {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+}
+
+.tooltip {
+    visibility: hidden; /* Masquer la tooltip par défaut */
+    width: 120px; /* Largeur de la tooltip */
+    background-color: #555; /* Couleur de fond de la tooltip */
+    color: #fff; /* Couleur du texte */
+    text-align: center; /* Centrer le texte */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 5px 0; /* Espacement intérieur */
+    position: absolute; /* Positionner la tooltip */
+    z-index: 1; /* Assurer que la tooltip est au-dessus des autres éléments */
+    bottom: 125%; /* Positionner la tooltip au-dessus du bouton */
+    left: 50%; /* Centrer la tooltip horizontalement */
+    margin-left: -60px; /* Ajuster la position horizontale */
+    opacity: 0; /* Initialiser l'opacité */
+    transition: opacity 0.3s; /* Transition pour l'apparition */
+}
+
+.tooltip::after {
+    content: ''; /* Contenu pour le triangle */
+    position: absolute; /* Positionner le triangle */
+    top: 100%; /* Le triangle sera au bas de la tooltip */
+    left: 50%; /* Centrer le triangle horizontalement */
+    margin-left: -5px; /* Ajuster la position du triangle */
+    border-width: 5px; /* Taille du triangle */
+    border-style: solid;
+    border-color: #555 transparent transparent transparent; /* Couleur du triangle */
+}
+
+.button-container:hover .tooltip {
+    visibility: visible; /* Afficher la tooltip au survol */
+    opacity: 1; /* Rendre la tooltip visible */
+}
+button.edit:hover {
+    background-color: hsl(222, 82%, 50%);
+}
+button.delete:hover {
+    background-color:  hsl(222, 82%, 50%);
 }

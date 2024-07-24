@@ -1,38 +1,76 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,session
 import MetaTrader5 as mt5
 from flask_cors import CORS
-
+from main2 import start_trading 
+import jwt
+import datetime
 app = Flask(__name__)
 CORS(app)
 import threading
 import time
+from flask_bcrypt import Bcrypt
+from flask_session import Session
 
-
-
-
+bcrypt = Bcrypt(app)
+app.config['SECRET_KEY'] = 'yossra_dridi'
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.json
-    print("Received data:", data)
+    global login_settings
+    data = request.get_json()
     username = data['username']
     password = data['password']
     server = data['server']
-
+    login_settings = {
+        'username': data.get('username'),
+        'password': data.get('password'),
+        'server': data.get('server'),
+        
+    }
     # Initialisation de la connexion MT5
-    if not mt5.initialize(login=int(username), password=password, server=server):
-        print("Échec de la connexion à MetaTrader 5")
-        return jsonify({"status": "error", "message": "Échec de la connexion"}), 500
+    if not mt5.initialize():
+        return jsonify({"status": "error", "message": "Échec de l'initialisation de MetaTrader 5"}), 500
 
-    # Vérification du statut de connexion
+    # Connexion à MetaTrader 5
     authorized = mt5.login(login=int(username), password=password, server=server)
-    if not authorized:
-        print("Autorisation échouée avec MT5")
-        mt5.shutdown()
-        return jsonify({"status": "error", "message": "Autorisation échouée"}), 401
+    if authorized:
+        # Crée un identifiant unique basé sur le login
+        user_id = f"user_{username}"
+        print("Login successful")
 
-    print("Connecté et autorisé.")
+        # Génération du token JWT
+        token = jwt.encode({
+            'user_id': user_id,  # Utilisez user_id au lieu de username
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+        }, app.config['SECRET_KEY'], algorithm='HS256')
+
+        mt5.shutdown()
+        print("Token:", token)
+        return jsonify({'status': 'success', 'message': 'Connexion réussie!', 'token': token}), 200
+
+    # Si la connexion échoue
     mt5.shutdown()
-    return jsonify({"status": "success", "message": "Connexion réussie!"})
+    return jsonify({"status": "error", "message": "Autorisation échouée"}), 401
+@app.route('/logout', methods=['POST'])
+def logout():
+    # Détruire les informations de session
+    session.pop('username', None)
+    session.pop('server', None)
+    session.pop('loggedIn', None)
+    
+    mt5.shutdown()
+    return jsonify({"status": "success", "message": "Déconnexion réussie!"})
+@app.route('/session', methods=['GET'])
+def get_session():
+    if 'username' in session:
+        return jsonify({
+            "loggedIn": True,
+            "user": {
+                "username": session.get('username'),
+                "server": session.get('server')
+            }
+        })
+    else:
+        return jsonify({"loggedIn": False})
 @app.route('/symbols', methods=['GET'])
 def get_symbols():
     if not mt5.initialize():
@@ -49,12 +87,12 @@ def save_settings():
     trading_settings = {
         'symbol': data.get('symbol'),
         'take_profit': float(data.get('takeProfit')),
-        
         'lot_size': float(data.get('lotSize')),
         'timeFrame': data.get('timeFrame')
     }
     for key, value in trading_settings.items():
      print(f"Le type de {key} est {type(value)}")
+     print("status: success, message: Settings saved successfully!")
     return jsonify({"status": "success", "message": "Settings saved successfully!"})
 
 
@@ -78,7 +116,7 @@ def trading_logic():
     print("symbole ",symbole)
     take_profit = trading_settings.get('take_profit')
     print("take profit ",take_profit)
-    periode=mt5.TIMEFRAME_M1
+    periode=trading_settings.get('timeFrame')
     lot_size = trading_settings.get('lot_size')
     print("lot_size ",lot_size)
 
@@ -405,10 +443,23 @@ def trading_logic():
 
 @app.route('/executeTrade', methods=['POST'])
 def execute_trade():
-    trade_thread = threading.Thread(target=trading_logic)
-    trade_thread.daemon = True  # S'assurer que le thread ne bloque pas le processus de fermeture
+    symbole = trading_settings.get('symbol')
+    print("symbole ",symbole)
+    take_profit = trading_settings.get('take_profit')
+    print("take profit ",take_profit)
+    periode=trading_settings.get('timeFrame')
+    lot_size = trading_settings.get('lot_size')
+    login=login_settings.get('username')
+    print("login ",login)
+    password=login_settings.get('password')
+    server=login_settings.get('server')
+    trade_thread = threading.Thread(target=start_trading, args=(symbole, periode, take_profit, lot_size, login, password, server))
+  
+    
+    trade_thread.daemon = True
     trade_thread.start()
     return jsonify({"status": "success", "message": "Trade execution started"})
+
    
 
 
